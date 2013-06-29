@@ -14,23 +14,30 @@
 #include "lib/USART.h"
 
 volatile unsigned char usartValue;
-volatile uint32_t adcSample;
-volatile uint8_t samplesCount;
+volatile uint8_t adcHigh;
+volatile uint8_t adcLow;
 
-int main(void) {
-    DDRB |= (1 << PINB0) | (1 << PINB1);
-    PORTB |= (0 << PINB0) | (0 << PINB1);
-    sei();
-    USARTInit(true);
-    // Indicate start-up sequence
+void runStartUpSequence() {
     for (int i = 0; i < 3; i++) {
         PORTB ^= (1 << PINB0);
         _delay_ms(50);
         PORTB ^= (1 << PINB0);
         _delay_ms(50);
     }
+}
+
+int main(void) {
+    DDRB |= (1 << PINB0) | (1 << PINB1);
+    PORTB |= (0 << PINB0) | (0 << PINB1);
+    runStartUpSequence();
+    sei();
+    USARTInit(true);
     while (1) {
         // Endless cycle of violence..
+        cli();
+        USARTSendByte(adcLow);
+        USARTSendByte(adcHigh);
+        sei();
     }
 }
 
@@ -39,8 +46,6 @@ ISR(USART_RXC_vect) {
     switch (usartValue) {
         case 'R':
             DisableADC();
-            samplesCount = 0;
-            adcSample = 0;
             ADCInit(0);
             break;
         case 'S':
@@ -53,19 +58,7 @@ ISR(USART_RXC_vect) {
 }
 
 ISR(ADC_vect) {
-    if (samplesCount == 16) {
-        int result = (int) (adcSample / 16);
-        char adcLow = result;
-        char adcHigh = (result >> 8);
-        USARTSendByte(adcLow);
-        USARTSendByte(adcHigh);
-        adcSample = 0;
-        samplesCount = 0;
-    }
-    adcSample += ADC;
-    samplesCount++;
-    //    char res [10];
-    //    itoa(ADC, res, 10);
-    //    USARTSendString(res);
+    adcHigh = ADCH;
+    adcLow = ADCL;
     ADCSRA |= 1 << ADSC;
 }

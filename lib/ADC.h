@@ -29,14 +29,16 @@ void ADCInit() {
  * ADC input pin (0..7)
  */
 void ADCInit(uint8_t channel) {
-    ADMUX = (1 << REFS0) | (1 << REFS1) | channel; // Internal 2.56V reference with additional cap
+    ADMUX = (1 << REFS0) | channel; // AVCC with external capacitor at AREF pin
     ADCSRA = (1 << ADEN)
-            | (1 << ADSC)
             | (1 << ADIE)
             // Division factor = 128
             | (1 << ADPS0)
             | (1 << ADPS1)
             | (1 << ADPS2);
+    MCUCR = 1 << SM0;
+    MCUCR |= 1 << SE; // Sleep-mode enabled
+    ADCSRA |= (1 << ADSC);
 }
 
 void DisableADC() {

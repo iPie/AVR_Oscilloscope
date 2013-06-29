@@ -13,9 +13,9 @@
 /* UBRRL = 0xCF for USBasp                                              */
 /* UBRRL = 0x33 for Terminal                                            */
 /************************************************************************/
-#define F_CPU 16000000UL
+#define F_CPU 12000000UL
 #define USART_BAUDRATE 115200
-#define BAUD_PRESCALE 8 //(((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+#define BAUD_PRESCALE 6 //(((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
 
 #include <avr/io.h>
 #include <util/delay.h>

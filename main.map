@@ -115,7 +115,7 @@ LOAD d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x266
+.text           0x00000000      0x20c
  *(.vectors)
  .vectors       0x00000000       0x54 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
                 0x00000000                __vectors
@@ -188,29 +188,30 @@ LOAD d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000078                __vector_16
                 0x00000078                __vector_18
                 0x00000078                __vector_20
- .text          0x0000007c      0x1e6 build/main.o
-                0x000000aa                USARTInit(bool)
+ .text          0x0000007c      0x18c build/main.o
+                0x000000b6                USARTInit(bool)
                 0x00000086                ADCInit(unsigned char)
-                0x000000bc                USARTSendByte(char)
-                0x0000014a                __vector_11
-                0x000000cc                USARTSendString(char*)
-                0x000000f6                main
-                0x000000c4                USARTReceiveByte()
-                0x00000090                DisableADC()
-                0x000001a6                __vector_14
-                0x00000094                AnalogRead(unsigned char)
+                0x000000c8                USARTSendByte(char)
+                0x00000102                runStartUpSequence()
+                0x00000174                __vector_11
+                0x000000d8                USARTSendString(char*)
+                0x00000140                main
+                0x000000d0                USARTReceiveByte()
+                0x0000009c                DisableADC()
+                0x000001e2                __vector_14
+                0x000000a0                AnalogRead(unsigned char)
                 0x0000007c                ADCInit()
- .text          0x00000262        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text          0x00000262        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
-                0x00000262                . = ALIGN (0x2)
+ .text          0x00000208        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text          0x00000208        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00000208                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00000262        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x00000262        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
-                0x00000262                . = ALIGN (0x2)
+ .text.libgcc   0x00000208        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00000208        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00000208                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000262        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x00000262                exit
-                0x00000262                _exit
+ .fini9         0x00000208        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00000208                exit
+                0x00000208                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -229,11 +230,11 @@ LOAD d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000262        0x4 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000208        0x4 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000266                _etext = .
+                0x0000020c                _etext = .
 
-.data           0x00800060        0x0 load address 0x00000266
+.data           0x00800060        0x0 load address 0x0000020c
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
@@ -248,28 +249,28 @@ LOAD d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00800060                _edata = .
                 0x00800060                PROVIDE (__data_end, .)
 
-.bss            0x00800060        0x6
+.bss            0x00800060        0x3
                 0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800060        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
- .bss           0x00800060        0x6 build/main.o
+ .bss           0x00800060        0x3 build/main.o
                 0x00800060                usartValue
-                0x00800061                adcSample
-                0x00800065                samplesCount
- .bss           0x00800066        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .bss           0x00800066        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00800061                adcHigh
+                0x00800062                adcLow
+ .bss           0x00800063        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .bss           0x00800063        0x0 d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
-                0x00800066                PROVIDE (__bss_end, .)
-                0x00000266                __data_load_start = LOADADDR (.data)
-                0x00000266                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800063                PROVIDE (__bss_end, .)
+                0x0000020c                __data_load_start = LOADADDR (.data)
+                0x0000020c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800066        0x0
-                0x00800066                PROVIDE (__noinit_start, .)
+.noinit         0x00800063        0x0
+                0x00800063                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800066                PROVIDE (__noinit_end, .)
-                0x00800066                _end = .
-                0x00800066                PROVIDE (__heap_start, .)
+                0x00800063                PROVIDE (__noinit_end, .)
+                0x00800063                _end = .
+                0x00800063                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -326,32 +327,32 @@ LOAD d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000000       0x20 build/main.o
 
 .debug_pubnames
-                0x00000000       0xe8
+                0x00000000       0xf7
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0xe8 build/main.o
+                0x00000000       0xf7 build/main.o
 
-.debug_info     0x00000000      0x43d
+.debug_info     0x00000000      0x3f1
  *(.debug_info)
- .debug_info    0x00000000      0x43d build/main.o
+ .debug_info    0x00000000      0x3f1 build/main.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x207
+.debug_abbrev   0x00000000      0x202
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x207 build/main.o
+ .debug_abbrev  0x00000000      0x202 build/main.o
 
-.debug_line     0x00000000      0x3de
+.debug_line     0x00000000      0x3ee
  *(.debug_line)
- .debug_line    0x00000000      0x3de build/main.o
+ .debug_line    0x00000000      0x3ee build/main.o
 
-.debug_frame    0x00000000       0xc0
+.debug_frame    0x00000000       0xd0
  *(.debug_frame)
- .debug_frame   0x00000000       0xc0 build/main.o
+ .debug_frame   0x00000000       0xd0 build/main.o
 
-.debug_str      0x00000000      0x1e0
+.debug_str      0x00000000      0x1f0
  *(.debug_str)
- .debug_str     0x00000000      0x1e0 build/main.o
-                                0x219 (size before relaxing)
+ .debug_str     0x00000000      0x1f0 build/main.o
+                                0x229 (size before relaxing)
 
 .debug_loc      0x00000000       0xd1
  *(.debug_loc)
@@ -362,8 +363,8 @@ LOAD d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 OUTPUT(main.elf elf32-avr)
 LOAD linker stubs
 
-.debug_ranges   0x00000000       0x48
- .debug_ranges  0x00000000       0x48 build/main.o
+.debug_ranges   0x00000000       0x30
+ .debug_ranges  0x00000000       0x30 build/main.o
 
 Cross Reference Table
 
@@ -409,10 +410,11 @@ __vector_9                                        d:/soft/avrl/winavr/bin/../lib
 __vector_default                                  d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
 __vectors                                         d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
 _exit                                             d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-adcSample                                         build/main.o
+adcHigh                                           build/main.o
+adcLow                                            build/main.o
 exit                                              d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
                                                   d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
 main                                              build/main.o
                                                   d:/soft/avrl/winavr/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
-samplesCount                                      build/main.o
+runStartUpSequence()                              build/main.o
 usartValue                                        build/main.o
