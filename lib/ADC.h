@@ -10,11 +10,6 @@
 
 #include <avr/io.h>
 
-void ADCInit() {
-    ADMUX = (1 << REFS0) | (0 << REFS1); // Internal 2.56V reference
-    ADCSRA = (1 << ADEN) | (1 << ADPS2); // Division factor = 16
-}
-
 /**
  * Starting ADC by enabling ADEN, ADSC and ADIE registers.
  * To handle interrupts:
@@ -24,28 +19,25 @@ void ADCInit() {
  *     value = ADC; // Read ADC register
  *     ADCSRA |= 1 << ADSC;
  * }
- * 
- * @param channel
- * ADC input pin (0..7)
+ * @param channel ADC input pin (0..7) 
  */
 void ADCInit(uint8_t channel) {
-    ADMUX = (1 << REFS0) | channel; // AVCC with external capacitor at AREF pin
-    ADCSRA = (1 << ADEN)
-            | (1 << ADIE)
-            // Division factor = 128
-            | (1 << ADPS0)
-            | (1 << ADPS1)
-            | (1 << ADPS2);
-    MCUCR = 1 << SM0;
-    MCUCR |= 1 << SE; // Sleep-mode enabled
-    ADCSRA |= (1 << ADSC);
+        ADMUX = (1 << REFS0) | channel; // AVCC with external capacitor at AREF pin
+        ADCSRA = (1 << ADEN)
+                | (1 << ADIE)                
+                | (1 << ADPS0)
+                | (1 << ADPS1)
+                | (1 << ADPS2); // Division factor = 128
+        MCUCR |= 1 << SM0;
+        MCUCR |= 1 << SE; // Sleep-mode enabled
+        ADCSRA |= (1 << ADSC);
 }
 
-void DisableADC() {
+void disableADC() {
     ADCSRA = 0x00;
 }
 
-uint16_t AnalogRead(uint8_t channel) {
+uint16_t analogRead(uint8_t channel) {
     ADMUX |= channel;
     ADCSRA |= (1 << ADSC);
     while (!(ADCSRA & (1 << ADIF))) {

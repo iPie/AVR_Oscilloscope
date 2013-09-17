@@ -67,13 +67,15 @@ avrdude = d:\Soft\AVR\avrdude-5.11\avrdude.exe
 #     this an empty or blank macro!
 OBJDIR = ./build
 
+# Compiled files directory
+DISTDIR =./dist
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = $(TARGET).c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
-CPPSRC = 
+CPPSRC = $(TARGET).cpp
 
 
 # List Assembler source files here.
@@ -111,7 +113,7 @@ EXTRAINCDIRS =
 #     gnu89 = c89 plus GCC extensions
 #     c99   = ISO C99 standard (not yet fully implemented)
 #     gnu99 = c99 plus GCC extensions
-CSTANDARD = -std=gnu99
+#CSTANDARD = -std=gnu99
 
 
 # Place -D or -U options here for C sources
@@ -248,7 +250,7 @@ EXTMEMOPTS =
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -Wl,-Map=$(TARGET).map,--cref
+LDFLAGS = -Wl,-Map=$(DISTDIR)/$(TARGET).map,--cref
 LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
@@ -267,7 +269,7 @@ AVRDUDE_PROGRAMMER = usbasp
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = usb
 
-AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
+AVRDUDE_WRITE_FLASH = -U flash:w:$(DISTDIR)/$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
 
@@ -392,13 +394,13 @@ build: elf hex eep lss sym
 #build: lib
 
 
-elf: $(TARGET).elf
-hex: $(TARGET).hex
-eep: $(TARGET).eep
-lss: $(TARGET).lss
-sym: $(TARGET).sym
-LIBNAME=lib$(TARGET).a
-lib: $(LIBNAME)
+elf: $(DISTDIR)/$(TARGET).elf
+hex: $(DISTDIR)/$(TARGET).hex
+eep: $(DISTDIR)/$(TARGET).eep
+lss: $(DISTDIR)/$(TARGET).lss
+sym: $(DISTDIR)/$(TARGET).sym
+LIBNAME=$(DISTDIR)/lib$(TARGET).a
+lib: $(DISTDIR)/$(LIBNAME)
 
 
 
@@ -424,15 +426,15 @@ ifdef ISIS
 endif
 
 # Display size of file.
-HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
-ELFSIZE = $(SIZE) --mcu=$(MCU) --format=avr $(TARGET).elf
+HEXSIZE = $(SIZE) --target=$(FORMAT) $(DISTDIR)/$(TARGET).hex
+ELFSIZE = $(SIZE) $(DISTDIR)/$(TARGET).elf
 
 sizebefore:
-	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); \
+	@if test -f $(DISTDIR)/$(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); \
 	2>/dev/null; echo; fi
 
 sizeafter:
-	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); \
+	@if test -f $(DISTDIR)/$(TARGET).elf; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); \
 	2>/dev/null; echo; fi
 
 
@@ -442,7 +444,7 @@ gccversion :
 
 
 # Program the device.  
-program: $(TARGET).hex $(TARGET).eep
+program: $(DISTDIR)/$(TARGET).hex $(DISTDIR)/$(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 # Generate avr-gdb config/init file which does the following:
@@ -453,14 +455,14 @@ gdb-config:
 	@echo define reset >> $(GDBINIT_FILE)
 	@echo SIGNAL SIGHUP >> $(GDBINIT_FILE)
 	@echo end >> $(GDBINIT_FILE)
-	@echo file $(TARGET).elf >> $(GDBINIT_FILE)
+	@echo file $(DISTDIR)/$(TARGET).elf >> $(GDBINIT_FILE)
 	@echo target remote $(DEBUG_HOST):$(DEBUG_PORT)  >> $(GDBINIT_FILE)
 ifeq ($(DEBUG_BACKEND),simulavr)
 	@echo load  >> $(GDBINIT_FILE)
 endif
 	@echo break main >> $(GDBINIT_FILE)
 
-debug: gdb-config $(TARGET).elf
+debug: gdb-config $(DISTDIR)/$(TARGET).elf
 ifeq ($(DEBUG_BACKEND), avarice)
 	@echo Starting AVaRICE - Press enter when "waiting to connect" message displays.
 	@$(WINSHELL) /c start avarice --jtag $(JTAG_DEV) --erase --program --file \
@@ -485,16 +487,16 @@ COFFCONVERT += --change-section-address .eeprom-0x810000
 
 
 
-coff: $(TARGET).elf
+coff: $(DISTDIR)/$(TARGET).elf
 	@echo
-	@echo $(MSG_COFF) $(TARGET).cof
-	$(COFFCONVERT) -O coff-avr $< $(TARGET).cof
+	@echo $(MSG_COFF) $(DISTDIR)/$(TARGET).cof
+	$(COFFCONVERT) -O coff-avr $< $(DISTDIR)/$(TARGET).cof
 
 
-extcoff: $(TARGET).elf
+extcoff: $(DISTDIR)/$(TARGET).elf
 	@echo
-	@echo $(MSG_EXTENDED_COFF) $(TARGET).cof
-	$(COFFCONVERT) -O coff-ext-avr $< $(TARGET).cof
+	@echo $(MSG_EXTENDED_COFF) $(DISTDIR)/$(TARGET).cof
+	$(COFFCONVERT) -O coff-ext-avr $< $(DISTDIR)/$(TARGET).cof
 
 
 
@@ -525,7 +527,7 @@ extcoff: $(TARGET).elf
 
 
 # Create library from object files.
-.SECONDARY : $(TARGET).a
+.SECONDARY : $(DISTDIR)/$(TARGET).a
 .PRECIOUS : $(OBJ)
 %.a: $(OBJ)
 	@echo
@@ -534,7 +536,7 @@ extcoff: $(TARGET).elf
 
 
 # Link: create ELF output file from object files.
-.SECONDARY : $(TARGET).elf
+.SECONDARY : $(DISTDIR)/$(TARGET).elf
 .PRECIOUS : $(OBJ)
 %.elf: $(OBJ)
 	@echo
@@ -584,13 +586,13 @@ clean: begin clean_list end
 clean_list :
 	@echo
 	@echo $(MSG_CLEANING)
-	$(REMOVE) $(TARGET).hex
-	$(REMOVE) $(TARGET).eep
-	$(REMOVE) $(TARGET).cof
-	$(REMOVE) $(TARGET).elf
-	$(REMOVE) $(TARGET).map
-	$(REMOVE) $(TARGET).sym
-	$(REMOVE) $(TARGET).lss
+	$(REMOVE) $(DISTDIR)/$(TARGET).hex
+	$(REMOVE) $(DISTDIR)/$(TARGET).eep
+	$(REMOVE) $(DISTDIR)/$(TARGET).cof
+	$(REMOVE) $(DISTDIR)/$(TARGET).elf
+	$(REMOVE) $(DISTDIR)/$(TARGET).map
+	$(REMOVE) $(DISTDIR)/$(TARGET).sym
+	$(REMOVE) $(DISTDIR)/$(TARGET).lss
 	$(REMOVE) $(SRC:%.c=$(OBJDIR)/%.o)
 	$(REMOVE) $(SRC:%.c=$(OBJDIR)/%.lst)
 	$(REMOVE) $(SRC:.c=.s)

@@ -8,36 +8,31 @@
 #ifndef USART_H
 #define	USART_H
 
-/************************************************************************/
-/*                               SETTINGS	                        */
-/* UBRRL = 0xCF for USBasp                                              */
-/* UBRRL = 0x33 for Terminal                                            */
-/************************************************************************/
-#define F_CPU 12000000UL
-#define USART_BAUDRATE 115200
-#define BAUD_PRESCALE 6 //(((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+#define F_CPU 16000000UL
+#define USART_BAUDRATE 500000
+#define BAUD_PRESCALE 1 //(((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
 /**
- * Initialize USART
- * 
- * @param startService
- * If set RXCIE will be enabled
- * 
+ * Initialize USART. Settings: 8-bit data length, 1 stop bit, no parity.
  * To handle interrupts:
  *
- * volitile unsigned char value;
+ * volatile unsigned char value;
  * ISR(USART_RXC_vect) {
  *     value = UDR; // Read UDR register   
  * }
+ * @param startService if set RXCIE will be enabled
  */
 void USARTInit(bool startService = false) {
+    UBRRH &= ~(1 << URSEL);
     UBRRH = (unsigned char) (BAUD_PRESCALE >> 8);
     UBRRL = (unsigned char) BAUD_PRESCALE;
     UCSRB = (1 << TXEN) | (1 << RXEN) | ((int) startService << RXCIE);
+    UCSRC = (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0); // 1 stop bit, 8-bit data length
+
 }
 
 void USARTSendByte(char data) {
@@ -54,6 +49,10 @@ uint8_t USARTReceiveByte() {
     return UDR;
 }
 
+/**
+ * Send an array of characters over USART. '\n\r' is appended at the end.
+ * @param str[] array of maximum 256 characters
+ */
 void USARTSendString(char str[]) {
     uint8_t i = 0;
     while (str[i] != '\0') {
@@ -65,4 +64,3 @@ void USARTSendString(char str[]) {
 }
 
 #endif	/* USART_H */
-
