@@ -1,10 +1,3 @@
-/* 
- * File:   ADC.h
- * Author: Ajarax
- *
- * Created on November 10, 2012, 2:33 AM
- */
-
 #ifndef ADC_H
 #define	ADC_H
 
@@ -22,15 +15,16 @@
  * @param channel ADC input pin (0..7) 
  */
 void ADCInit(uint8_t channel) {
-        ADMUX = (1 << REFS0) | channel; // AVCC with external capacitor at AREF pin
-        ADCSRA = (1 << ADEN)
-                | (1 << ADIE)                
-                | (1 << ADPS0)
-                | (1 << ADPS1)
-                | (1 << ADPS2); // Division factor = 128
-        MCUCR |= 1 << SM0;
-        MCUCR |= 1 << SE; // Sleep-mode enabled
-        ADCSRA |= (1 << ADSC);
+    ADMUX = (1 << REFS0) | (1 << REFS1) | channel; // AVCC with external capacitor at AREF pin
+    ADCSRA = (1 << ADEN)
+            | (1 << ADIE)
+            | (1 << ADATE)
+            | (1 << ADPS0)
+            | (0 << ADPS1)
+            | (1 << ADPS2); // Division factor = 32
+    MCUCR |= 1 << SM0;
+    MCUCR |= 1 << SE; // Sleep-mode enabled
+    ADCSRA |= (1 << ADSC);
 }
 
 void disableADC() {

@@ -4,17 +4,15 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
             <name>AVR_Oscilloscope</name>
-            <c-extensions/>
-            <cpp-extensions>cpp</cpp-extensions>
+            <c-extensions>c</c-extensions>
+            <cpp-extensions/>
             <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList>
-                <sourceRootElem>.</sourceRootElem>
-            </sourceRootList>
+            <sourceRootList/>
             <confList>
                 <confElem>
-                    <name>Default</name>
+                    <name>default</name>
                     <type>0</type>
                 </confElem>
             </confList>

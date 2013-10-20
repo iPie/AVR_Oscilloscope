@@ -1,5 +1,7 @@
-build/main.o: main.cpp lib/ADC.h lib/USART.h
+build/main.o: main.c config.h lib/adc.h lib/usart.h
 
-lib/ADC.h:
+config.h:
 
-lib/USART.h:
+lib/adc.h:
+
+lib/usart.h:

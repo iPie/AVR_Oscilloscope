@@ -1,20 +1,20 @@
-/* 
- * File:   usart.h
- * Author: Ajarax
- *
- * Created on November 8, 2012, 12:14 AM
- */
-
 #ifndef USART_H
 #define	USART_H
 
-#define F_CPU 16000000UL
-#define USART_BAUDRATE 500000
-#define BAUD_PRESCALE 1 //(((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
-
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
+#include <math.h>
+
+#ifndef F_CPU
+#warning "F_CPU not defined, using default value"
+#define F_CPU 1000000UL
+#endif
+
+#ifndef USART_BAUDRATE
+#warning "USART_BAUDRATE not defined, using default value"
+#define USART_BAUDRATE 9600
+#endif
 
 /**
  * Initialize USART. Settings: 8-bit data length, 1 stop bit, no parity.
@@ -26,13 +26,13 @@
  * }
  * @param startService if set RXCIE will be enabled
  */
-void USARTInit(bool startService = false) {
+void USARTInit(char startService) {
     UBRRH &= ~(1 << URSEL);
-    UBRRH = (unsigned char) (BAUD_PRESCALE >> 8);
-    UBRRL = (unsigned char) BAUD_PRESCALE;
+    uint8_t baundPrescale = lround(((F_CPU / (USART_BAUDRATE * 16UL))) - 1);
+    UBRRH = (unsigned char) (baundPrescale >> 8);
+    UBRRL = (unsigned char) baundPrescale;
     UCSRB = (1 << TXEN) | (1 << RXEN) | ((int) startService << RXCIE);
-    UCSRC = (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0); // 1 stop bit, 8-bit data length
-
+    UCSRC = (1 << URSEL) | (1 << USBS) | (3 << UCSZ0); // 1 stop bit, 8-bit data length
 }
 
 void USARTSendByte(char data) {

@@ -5,8 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="lib" displayName="lib" projectFiles="true">
-        <itemPath>lib/ADC.h</itemPath>
-        <itemPath>lib/USART.h</itemPath>
+        <itemPath>/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/lib/adc.h</itemPath>
+        <itemPath>/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/lib/usart.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -15,7 +15,8 @@
       <logicalFolder name="dist" displayName="dist" projectFiles="true">
         <itemPath>dist/main.elf</itemPath>
       </logicalFolder>
-      <itemPath>main.cpp</itemPath>
+      <itemPath>/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/config.h</itemPath>
+      <itemPath>/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -24,13 +25,9 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
-  <sourceRootList>
-    <Elem>.</Elem>
-  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Default" type="0">
+    <conf name="default" type="0">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>avr-gcc|GNU</compilerSet>
@@ -42,34 +39,42 @@
       <makefileType>
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
-          <buildCommand>${MAKE} -f Makefile</buildCommand>
-          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath></executablePath>
+          <buildCommand>${MAKE}</buildCommand>
+          <cleanCommand>${MAKE} clean</cleanCommand>
+          <executablePath>/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/.dist/main.elf</executablePath>
           <cTool>
-            <incDir>
-              <pElem>.</pElem>
-            </incDir>
             <preprocessorList>
-              <Elem>F_CPU=16000000UL</Elem>
+              <Elem>__AVR_ATmega16__</Elem>
             </preprocessorList>
           </cTool>
           <ccTool>
-            <incDir>
-              <pElem>.</pElem>
-            </incDir>
             <preprocessorList>
-              <Elem>F_CPU=16000000UL</Elem>
+              <Elem>__AVR_ATmega16__</Elem>
             </preprocessorList>
           </ccTool>
         </makeTool>
       </makefileType>
-      <item path="dist/main.elf" ex="false" tool="0" flavor2="0">
+      <item path="/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/config.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
-      <item path="lib/ADC.h" ex="false" tool="3" flavor2="0">
+      <item path="/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/lib/adc.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
-      <item path="lib/USART.h" ex="false" tool="3" flavor2="0">
+      <item path="/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/lib/usart.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="/home/ajarax/Java/NetBeansProjects/AVR_Oscilloscope/main.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="dist/main.elf" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

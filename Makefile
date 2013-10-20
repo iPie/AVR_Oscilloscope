@@ -60,7 +60,7 @@ TARGET = main
 ISIS = #d:\Soft\AVR\Projects\!Isis\lcd\
 
 #avrdude path
-avrdude = d:\Soft\AVR\avrdude-5.11\avrdude.exe
+avrdude = #d:\Soft\AVR\avrdude-5.11\avrdude.exe
 
 # Object files directory
 #     To put object files in current directory, use a dot (.), do NOT make
@@ -68,7 +68,7 @@ avrdude = d:\Soft\AVR\avrdude-5.11\avrdude.exe
 OBJDIR = ./build
 
 # Compiled files directory
-DISTDIR =./dist
+DISTDIR =./.dist
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = $(TARGET).c
@@ -113,7 +113,7 @@ EXTRAINCDIRS =
 #     gnu89 = c89 plus GCC extensions
 #     c99   = ISO C99 standard (not yet fully implemented)
 #     gnu99 = c99 plus GCC extensions
-#CSTANDARD = -std=gnu99
+CSTANDARD = -std=gnu99
 
 
 # Place -D or -U options here for C sources
@@ -146,7 +146,7 @@ CFLAGS += -funsigned-bitfields
 CFLAGS += -fpack-struct
 CFLAGS += -fshort-enums
 CFLAGS += -Wall
-CFLAGS += -Wstrict-prototypes
+#CFLAGS += -Wstrict-prototypes
 #CFLAGS += -mshort-calls
 #CFLAGS += -fno-unit-at-a-time
 #CFLAGS += -Wundef
@@ -604,6 +604,8 @@ clean_list :
 # Create object files directory
 $(shell mkdir $(OBJDIR) 2>/dev/null)
 
+# Create binary files directory
+$(shell mkdir $(DISTDIR) 2>/dev/null)
 
 # Include the dependency files.
 -include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
